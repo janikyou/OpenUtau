@@ -363,7 +363,8 @@ namespace OpenUtau.Plugin.Builtin {
             bool shortPos = EndsWithAny(s, ShortEndings)
                            || s.EndsWith("uya") && original != "qua";
             bool longPos = EndsWithAny(s, LongEndings)
-                           || original.EndsWith("qua");
+                           || original.EndsWith("qua")
+                           || s == "ăm";
             bool mediumPos = EndsWithAny(s, MediumEndings);
 
             int pos = t.shortPos;
@@ -445,7 +446,7 @@ namespace OpenUtau.Plugin.Builtin {
                 if (s.EndsWith("ia") || s.EndsWith("ua") || s.EndsWith("ưa"))
                     v2 = "A";
 
-                if (s == "oa") { v1 = "O"; v2 = "a"; } else if (s == "uy") { v1 = "O"; v2 = "i"; } else if (s == "oe") { v1 = "O"; v2 = "e"; } else if (s == "uê") { v1 = "O"; v2 = "E"; } else if (original == "ao" || original == ".ao") { v1 = "a"; v2 = "O"; } else if (original == "eo" || original == ".eo") { v1 = "e"; v2 = "O"; }
+                if (s == "oa") { v1 = "O"; v2 = "a"; } else if (s == "uy") { v1 = "O"; v2 = "i"; } else if (s == "oe") { v1 = "O"; v2 = "e"; } else if (s == "uê") { v1 = "O"; v2 = "E"; } else if (s == "oă") { v1 = "O"; v2 = "a"; } else if (s == "uâ") { v1 = "O"; v2 = "A"; } else if (original == "ao" || original == ".ao") { v1 = "a"; v2 = "O"; } else if (original == "eo" || original == ".eo") { v1 = "e"; v2 = "O"; }
 
                 string tail = v2;
                 if (s == "ôN" || s == "uN" || s == "oN")
@@ -475,6 +476,10 @@ namespace OpenUtau.Plugin.Builtin {
                 bool isStop = IsStopFinal(s[1]);
                 bool isNasal = IsNasalFinal(s[1]);
 
+                if (s == "ăm") {
+                    v = "O";
+                }
+
                 output.Add(new Phoneme {
                     phoneme = allowInitial ? $"- {v}" : $"{prefix} {v}"
                 });
@@ -484,8 +489,12 @@ namespace OpenUtau.Plugin.Builtin {
                 });
 
                 if (noNext && isNasal) {
+                    string finalTail = c;
+                    if (s == "oN" || s == "ON" || s == "uN") {
+                        finalTail = "m";
+                    }
                     output.Add(new Phoneme {
-                        phoneme = $"{c} -",
+                        phoneme = $"{finalTail} -",
                         position = t.endPos
                     });
                 }
@@ -509,8 +518,12 @@ namespace OpenUtau.Plugin.Builtin {
                 });
 
                 if (noNext && isNasal) {
+                    string finalTail = tail;
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        finalTail = "m";
+                    }
                     output.Add(new Phoneme {
-                        phoneme = $"{tail} -",
+                        phoneme = $"{finalTail} -",
                         position = t.endPos
                     });
                 }
@@ -525,7 +538,7 @@ namespace OpenUtau.Plugin.Builtin {
                 bool isStop = IsStopFinal(s[2]);
                 bool isNasal = IsNasalFinal(s[2]);
 
-                if (s.StartsWith("oa") || s.StartsWith("oe"))
+                if (s.StartsWith("oa") || s.StartsWith("oe") || s.StartsWith("oă") || s.StartsWith("uâ"))
                     v1 = "O";
 
                 if (longPos)
@@ -544,8 +557,12 @@ namespace OpenUtau.Plugin.Builtin {
                 });
 
                 if (noNext && isNasal) {
+                    string finalTail = tail;
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        finalTail = "m";
+                    }
                     output.Add(new Phoneme {
-                        phoneme = $"{tail} -",
+                        phoneme = $"{finalTail} -",
                         position = t.endPos
                     });
                 }
@@ -561,7 +578,7 @@ namespace OpenUtau.Plugin.Builtin {
                 if (s.EndsWith("uya"))
                     v3 = "A";
 
-                if (s.StartsWith("oa") || s.StartsWith("oe"))
+                if (s.StartsWith("oa") || s.StartsWith("oe") || s.StartsWith("oă") || s.StartsWith("uâ"))
                     v1 = "O";
 
                 pos = shortPos ? t.shortPos : t.mediumPos;
@@ -603,6 +620,9 @@ namespace OpenUtau.Plugin.Builtin {
 
                 if (noNext && isNasal) {
                     string tailFinal = EncodeFinal(s[^1].ToString());
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        tailFinal = "m";
+                    }
                     output.Add(new Phoneme {
                         phoneme = $"{tailFinal} -",
                         position = t.endPos
@@ -620,7 +640,7 @@ namespace OpenUtau.Plugin.Builtin {
                 if (s == "kua" || original == "qua" || original == ".qua") {
                     v1 = "O";
                     v2 = "a";
-                } else if (s.EndsWith("oa")) { v1 = "O"; v2 = "a"; } else if (s.EndsWith("uy")) { v1 = "O"; v2 = "i"; } else if (s.EndsWith("oe")) { v1 = "O"; v2 = "e"; } else if (s.EndsWith("uê")) { v1 = "O"; v2 = "E"; } else if (original.EndsWith("ao")) { v1 = "a"; v2 = "O"; } else if (original.EndsWith("eo")) { v1 = "e"; v2 = "O"; }
+                } else if (s.EndsWith("oa")) { v1 = "O"; v2 = "a"; } else if (s.EndsWith("uy")) { v1 = "O"; v2 = "i"; } else if (s.EndsWith("oe")) { v1 = "O"; v2 = "e"; } else if (s.EndsWith("uê")) { v1 = "O"; v2 = "E"; } else if (s.EndsWith("oă")) { v1 = "O"; v2 = "a"; } else if (s.EndsWith("uâ")) { v1 = "O"; v2 = "A"; } else if (original.EndsWith("ao")) { v1 = "a"; v2 = "O"; } else if (original.EndsWith("eo")) { v1 = "e"; v2 = "O"; }
 
                 if ((s.EndsWith("ia") || s.EndsWith("ua") || s.EndsWith("ưa"))
                     && original != "qua" && original != ".qua")
@@ -666,6 +686,9 @@ namespace OpenUtau.Plugin.Builtin {
 
                 if (noNext && isNasal) {
                     string tailFinal = EncodeFinal(s[^1].ToString());
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        tailFinal = "m";
+                    }
                     output.Add(new Phoneme {
                         phoneme = $"{tailFinal} -",
                         position = t.endPos
@@ -697,6 +720,9 @@ namespace OpenUtau.Plugin.Builtin {
 
                 if (noNext && isNasal) {
                     string tailFinal = EncodeFinal(s[^1].ToString());
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        tailFinal = "m";
+                    }
                     output.Add(new Phoneme {
                         phoneme = $"{tailFinal} -",
                         position = t.endPos
@@ -714,7 +740,7 @@ namespace OpenUtau.Plugin.Builtin {
                 bool isStop = IsStopFinal(s[3]);
                 bool isNasal = IsNasalFinal(s[3]);
 
-                if (s.Substring(1, 2) == "oa" || s.Substring(1, 2) == "oe")
+                if (s.Substring(1, 2) == "oa" || s.Substring(1, 2) == "oe" || s.Substring(1, 2) == "oă" || s.Substring(1, 2) == "uâ")
                     v1 = "O";
 
                 pos = shortPos ? t.shortPos : t.mediumPos;
@@ -732,8 +758,12 @@ namespace OpenUtau.Plugin.Builtin {
                 });
 
                 if (noNext && isNasal) {
+                    string finalTail = tail;
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        finalTail = "m";
+                    }
                     output.Add(new Phoneme {
-                        phoneme = $"{tail} -",
+                        phoneme = $"{finalTail} -",
                         position = t.endPos
                     });
                 }
@@ -759,7 +789,7 @@ namespace OpenUtau.Plugin.Builtin {
                     if (s.EndsWith("uya"))
                         v3 = "A";
 
-                    if (s.Substring(1, 2) == "oa" || s.Substring(1, 2) == "oe")
+                    if (s.Substring(1, 2) == "oa" || s.Substring(1, 2) == "oe" || s.Substring(1, 2) == "oă" || s.Substring(1, 2) == "uâ")
                         v1 = "O";
                 }
 
@@ -813,6 +843,9 @@ namespace OpenUtau.Plugin.Builtin {
 
                     if (noNext && isNasal) {
                         string tailFinal = EncodeFinal(s[^1].ToString());
+                        if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                            tailFinal = "m";
+                        }
                         output.Add(new Phoneme {
                             phoneme = $"{tailFinal} -",
                             position = t.endPos
@@ -833,6 +866,9 @@ namespace OpenUtau.Plugin.Builtin {
 
                 if (noNext && isNasal) {
                     string tailFinal = EncodeFinal(s[^1].ToString());
+                    if (s.EndsWith("oN") || s.EndsWith("ON") || s.EndsWith("uN")) {
+                        tailFinal = "m";
+                    }
                     output.Add(new Phoneme {
                         phoneme = $"{tailFinal} -",
                         position = t.endPos

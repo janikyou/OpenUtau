@@ -378,8 +378,7 @@ namespace OpenUtau.Plugin.Builtin {
 
                         string N = V2;
                         if (V1 + V2 == "Ong" || V1 + V2 == "ung" || V1 + V2 == "ong") N = "ng0";
-                        if (V1 + V2 == "Ai") { V2 = "y"; N = "i"; }
-                        if (loi.EndsWith("ay")) { V2 = "y"; N = "i"; }
+                        if (V1 + V2 == "Ai" || loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; V2_2 = "y"; N = "i"; }
                         if (_CV) C = "- " + C;
 
                         if (tontaiCcuoi) {
@@ -494,6 +493,7 @@ namespace OpenUtau.Plugin.Builtin {
                         VC = MapAll(VC);
                         N = MapAll(N);
                         N_ = MapAll(N_);
+                        if (loi.EndsWith("ay") || loi.EndsWith("ây")) { N = "y"; }
 
                         if (_CV) C = "- " + C;
 
@@ -728,8 +728,7 @@ namespace OpenUtau.Plugin.Builtin {
                             if (a && note.lyric != "qua") V2 = "@";
                             string N = V2;
                             if (V1 + V2 == "Ong" || V1 + V2 == "ung" || V1 + V2 == "ong") N = "ng0";
-                            if (V1 + V2 == "Ai") { V2 = "y"; N = "i"; }
-                            if (loi.EndsWith("ay")) { V2 = "y"; N = "i"; }
+                            if (V1 + V2 == "Ai" || loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; N = "i"; }
 
                             if (tontaiCcuoi) {
                                 phonemes.Add(new Phoneme { phoneme = $"- {C}{V1}" });
@@ -778,6 +777,7 @@ namespace OpenUtau.Plugin.Builtin {
                             N = MapAll(N);
                             bool a = loi.EndsWith("ia") || loi.EndsWith("ua") || loi.EndsWith("ưa");
                             if (a) V2 = "@";
+                            if (loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; N = "i"; }
 
                             if (tontaiCcuoi) {
                                 phonemes.Add(new Phoneme { phoneme = $"- {V1}" });
@@ -825,6 +825,7 @@ namespace OpenUtau.Plugin.Builtin {
                             string N = V3;
                             if (V2 + V3 == "Ong" || V2 + V3 == "ung" || V2 + V3 == "ong") N = "ng0";
                             if (V3 == "y") N = "i";
+                            if (loi.EndsWith("ay") || loi.EndsWith("ây")) { V3 = "y"; N = "i"; }
 
                             if (tontaiCcuoi && wV) {
                                 phonemes.Add(new Phoneme { phoneme = $"- {V1}{V2}" });
@@ -1001,8 +1002,7 @@ namespace OpenUtau.Plugin.Builtin {
 
                             string N = V2;
                             if (V1 + V2 == "Ong" || V1 + V2 == "ung" || V1 + V2 == "ong") N = "ng0";
-                            if (V1 + V2 == "Ai") { V2 = "y"; N = "i"; }
-                            if (loi.EndsWith("ay")) { V2 = "y"; N = "i"; }
+                            if (V1 + V2 == "Ai" || loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; V2_2 = "y"; N = "i"; }
                             if (_CV && prevtontaiCcuoi) C = "- " + C;
                             vow = vow + " ";
 
@@ -1162,6 +1162,7 @@ namespace OpenUtau.Plugin.Builtin {
                             VC = MapAll(VC);
                             N = MapAll(N);
                             N_ = MapAll(N_);
+                            if (loi.EndsWith("ay") || loi.EndsWith("ây")) { N = "y"; }
 
                             if (_CV && prevtontaiCcuoi) N = "- " + N;
                             vow = vow + " ";
@@ -1208,7 +1209,7 @@ namespace OpenUtau.Plugin.Builtin {
                                     } else {
                                         phonemes.Add(new Phoneme { phoneme = $"{C}{V1}{V2}" });
                                         phonemes.Add(new Phoneme { phoneme = $"{V2_2}{N}", position = ViTri });
-                                        phonemes.Add(new Phoneme { phoneme = $"{N} -", position = End });
+                                        phonemes.Add(new Phoneme { phoneme = $"{N_} -", position = End });
                                     }
                                 } else {
                                     if (VV_) {
@@ -1400,8 +1401,7 @@ namespace OpenUtau.Plugin.Builtin {
                                 if (a && note.lyric != "qua") V2 = "@";
                                 string N = V2;
                                 if (V1 + V2 == "Ong" || V1 + V2 == "ung" || V1 + V2 == "ong") N = "ng0";
-                                if (V1 + V2 == "Ai") { V2 = "y"; N = "i"; }
-                                if (loi.EndsWith("ay")) { V2 = "y"; N = "i"; }
+                                if (V1 + V2 == "Ai" || loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; N = "i"; }
                                 vow = vow + " ";
 
                                 if (prevtontaiCcuoi) {
@@ -1482,6 +1482,7 @@ namespace OpenUtau.Plugin.Builtin {
                                 N = MapAll(N);
                                 bool a = loi.EndsWith("ia") || loi.EndsWith("ua") || loi.EndsWith("ưa");
                                 if (a) V2 = "@";
+                                if (loi.EndsWith("ay") || loi.EndsWith("ây")) { V2 = "y"; N = "i"; }
 
                                 if (prevtontaiCcuoi) vow = "."; else vow = vow + " ";
 
@@ -1562,6 +1563,7 @@ namespace OpenUtau.Plugin.Builtin {
                                 string N = V3;
                                 if (V3 == "y") N = "i";
                                 if (V2 + V3 == "Ong" || V2 + V3 == "ung" || V2 + V3 == "ong") N = "ng0";
+                                if (loi.EndsWith("ay") || loi.EndsWith("ây")) { V3 = "y"; N = "i"; }
 
                                 if (prevtontaiCcuoi) vow = "."; else vow = vow + " ";
 
